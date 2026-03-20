@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 5s # High frequency for development purposes
+
+scrape_configs:
+  - job_name: "sre-api"
+    static_configs:
+      - targets: ["api:8000"] # 'api' is the service name in docker-compose
