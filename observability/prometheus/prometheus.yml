@@ -1,6 +1,8 @@
 global:
   scrape_interval: 5s # High frequency for development purposes
 
+rule_files:
+  - "alert_rules.yml" # Include the alert rules defined in alert_rules.yml
 scrape_configs:
   - job_name: "sre-api"
     static_configs:
