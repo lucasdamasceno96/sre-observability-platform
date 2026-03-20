@@ -50,3 +50,17 @@ async def health_check():
 @app.get("/metrics")
 async def metrics():
     return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
+@app.get("/orders")
+async def get_orders():
+    # Simule one real-world latency between 100ms and 1s
+    # In production, this would be the actual service logic, e.g., database calls, external API requests, etc.
+    delay = random.uniform(0.1, 1.0)
+    time.sleep(delay)
+    
+    # Simulate a 20% error rate for demonstration purposes
+    if random.random() < 0.2:
+        REQUEST_COUNT.labels(method="GET", endpoint="/orders", http_status=500).inc()
+        return Response(content="Internal Server Error", status_code=500)
+    
+    return {"orders": [{"id": 1, "item": "SRE Book"}, {"id": 2, "item": "Coffee"}]}
