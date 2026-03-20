@@ -14,6 +14,7 @@ services:
     container_name: prometheus
     volumes:
       - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./observability/prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml 
     ports:
       - "9090:9090"
     networks:

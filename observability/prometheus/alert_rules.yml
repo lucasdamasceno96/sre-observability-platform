@@ -1,0 +1,14 @@
+groups:
+  - name: SRE_Alerts
+    rules:
+      - alert: HighErrorRateOrders
+        expr: |
+          sum(rate(http_requests_total{endpoint="/orders", http_status="500"}[2m])) 
+          / 
+          sum(rate(http_requests_total{endpoint="/orders"}[2m])) > 0.05
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Taxa de erro alta no endpoint /orders"
+          description: "A taxa de erro está acima de 5% nos últimos 2 minutos. (Valor atual: {{ $value }})"
