@@ -2,8 +2,21 @@ import time
 import random
 from fastapi import FastAPI, Response
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
+from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OT_LPSpanExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
+# Configure OpenTelemetry Tracing
+provider = TracerProvider()
+processor = BatchSpanProcessor(OT_LPSpanExporter(endpoint="http://jaeger:4317", insecure=True))
+provider.add_span_processor(processor)
+trace.set_tracer_provider(provider)
 
 app = FastAPI(title="SRE Observability Lab - API")
+
+FastAPIInstrumentor.instrument_app(app)
 
 # SLIs Metrics (Request Latency & Error Rate)
 REQUEST_COUNT = Counter(
