@@ -56,7 +56,7 @@ _Note: Infrastructure is being provisioned._
 2. Ensure Docker and Docker Compose are installed.
 3. Build the core API:
    ```bash
-   docker build -t sre-app ./app
+   docker compose up --build -d
    ```
 
 ---
