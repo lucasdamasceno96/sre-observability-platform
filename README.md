@@ -62,3 +62,19 @@ _Note: Infrastructure is being provisioned._
 ---
 
 _Mentored Project for SRE Portfolio._
+
+## 🔴 Current Lab State: Intentional Failure Simulation
+
+This repository is currently configured in **Chaos Mode** to demonstrate the full observability cycle.
+
+- **Service:** `sre-api`
+- **Endpoint:** `/orders`
+- **Simulated Condition:** 20% Error Rate (HTTP 500) and High Latency (up to 1s).
+- **Objective:** Allow users to observe the transition of Prometheus alerts from `Pending` to `Firing`, visualize error spikes in Grafana, and perform root cause analysis using Jaeger traces.
+
+### How to observe the incident:
+
+1. Run the load generator: `python3 chaos/load_gen.py`.
+2. Access **Prometheus Alerts** (`localhost:9090/alerts`) to see `HighErrorRateOrders` in action.
+3. Access **Grafana** (`localhost:3000`) to see the "Golden Signals" degrading.
+4. Access **Jaeger** (`localhost:16686`) to inspect individual failed spans.
